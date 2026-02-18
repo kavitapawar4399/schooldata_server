@@ -16,13 +16,15 @@ const usersRouter = require('./routes/users');
 app.use('/users', usersRouter);
 
 const stdRouter= require('./controllers/student')
-
+app.use('/std', stdRouter);
 // local server start
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(3000, () => {
-    console.log('Server started on port 3000');
-  });
-}
+
+// IMPORTANT LINE FOR RENDER
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
+});
 
 // export for Vercel
 module.exports = app;
