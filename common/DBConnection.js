@@ -1,10 +1,23 @@
-const mongo = require ('mongodb')
+const { MongoClient } = require('mongodb');
 
-const getConnection=()=>{
-  const mongoClient=mongo.MongoClient
-  mongoClient.connect(process.env.DB_URL)
-  const db=Server.db("School");
-   return db;
-}
+let db = null; // cached DB connection
 
-module.exports=getConnection
+const getConnection = async () => {
+  if (db) return db; // reuse existing connection
+
+  try {
+    const client = await MongoClient.connect(process.env.DB_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+
+    db = client.db('School_data'); // select your DB
+    console.log('MongoDB connected successfully');
+    return db;
+  } catch (err) {
+    console.error('MongoDB connection failed:', err);
+    throw err;
+  }
+};
+
+module.exports = getConnection;
