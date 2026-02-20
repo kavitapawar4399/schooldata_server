@@ -1,7 +1,7 @@
 const ObjectId = require('mongodb').ObjectId;
 const MongoClient = require('mongodb').MongoClient;
 
-const url = "mongodb+srv://admin:admin123@student.nnwfjsg.mongodb.net/School?retryWrites=true&w=majority";
+const url = "mongodb+srv://admin:<db_password>@student.nnwfjsg.mongodb.net/?appName=Student";
 ;
 const dbName = "School";
 

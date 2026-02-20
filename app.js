@@ -3,8 +3,12 @@ const cors = require('cors');
 
 const app = express();
 
-// middleware
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  methods: ["GET","POST","PUT","DELETE"],
+  allowedHeaders: ["Content-Type"]
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -15,16 +19,7 @@ app.use('/', indexRouter);
 const usersRouter = require('./routes/users');
 app.use('/users', usersRouter);
 
-const stdRouter= require('./controllers/student')
-app.use('/std', stdRouter);
-// local server start
+const stdRoutes = require('./controllers/student');
+app.use('/std', stdRoutes);
 
-// IMPORTANT LINE FOR RENDER
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
-});
-
-// export for Vercel
-module.exports = app;
+module.exports = app;   // IMPORTANT
