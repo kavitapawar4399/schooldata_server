@@ -1,12 +1,12 @@
 const { ObjectId, MongoClient } = require('mongodb');
 
 const url = process.env.DB_URL;
-const dbName = "School";
+const dbName = "Schooldata";
 
 const saveStd = async (dataObj) => {
   const client = await MongoClient.connect(url);
   const db = client.db(dbName);
-  const collection = db.collection('School_data');
+  const collection = db.collection('Schooldata');
   const result = await collection.insertOne(dataObj);
   client.close();
   return result;
@@ -15,7 +15,7 @@ const saveStd = async (dataObj) => {
 const getStd = async () => {
   const client = await MongoClient.connect(url);
   const db = client.db(dbName);
-  const collection = db.collection('School_data');
+  const collection = db.collection('Schooldata');
   const result = await collection.find({}).toArray();
   client.close();
   return result;
@@ -24,7 +24,7 @@ const getStd = async () => {
 const updateStd = async (id, data) => {
   const client = await MongoClient.connect(url);
   const db = client.db(dbName);
-  const collection = db.collection('School_data');
+  const collection = db.collection('Schooldata');
   const result = await collection.updateOne(
     { _id: new ObjectId(id) },
     { $set: data }
@@ -36,7 +36,7 @@ const updateStd = async (id, data) => {
 const deleteStd = async (id) => {
   const client = await MongoClient.connect(url);
   const db = client.db(dbName);
-  const collection = db.collection('School_data');
+  const collection = db.collection('Schooldata');
   const result = await collection.deleteOne(
     { _id: new ObjectId(id) }
   );

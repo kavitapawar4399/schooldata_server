@@ -1,53 +1,59 @@
-var express = require('express');
-var router = express.Router();
-var stdservice = require('../services/stdService');
+const express = require("express");
+const router = express.Router();
+const getConnection = require("./db"); // the module above
 
-// SAVE
-router.post('/save-std', async function(req,res,next){
-  try{
-    const dataObj = req.body;
-    const result = await stdservice.saveStd(dataObj);
-    res.send(result);
-  }catch(e){
-    console.log(e);
-    res.status(500).send(e);
+router.get("/std/get-std", async (req, res) => {
+  try {
+    const db = await getConnection();
+    const students = await db.collection("Schooldata").find({}).toArray();
+    res.json(students);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
   }
 });
 
-// UPDATE
-router.put('/update-std', async function(req,res,next){
-  try{
-    const id = req.query.id;
-    const data = req.body;
-
-    const result = await stdservice.updateStd(id, data);
-    res.send(result);
-
-  }catch(e){
-    console.log(e);
-    res.status(500).send(e);
+router.post("/std/save-std", async (req, res) => {
+  try {
+    const db = await getConnection();
+    const data = req.body; // JSON data from frontend
+    const result = await db.collection("Schooldata").insertOne(data);
+    res.json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
   }
 });
 
-// GET
-router.get('/get-std', async function(req,res,next){
-  try{
-    const result = await stdservice.getStd();
-    res.send(result);
-  }catch(e){
-    res.status(500).send(e);
-  }
+router.put("/std/update-std/:id", async (req, res) => {
+  try {
+    const db = await getConnection();   
+    const id = req.params.id;
+    const data = req.body;  
+    const result = await db.collection("Schooldata").updateOne(
+      { _id: new require('mongodb').ObjectId(id) },
+      { $set: data }
+    );
+    res.json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  } 
 });
 
-// DELETE
-router.delete('/del-std', async function(req,res,next){
-  try{
-    const id = req.query.id;
-    const result = await stdservice.deleteStd(id);
-    res.send(result);
-  }catch(e){
-    res.status(500).send(e);
-  }
+router.delete("/std/delete-std/:id", async (req, res) => {
+  try {
+    const db = await getConnection(); 
+
+    const id = req.params.id;
+    const result = await db.collection("Schooldata").deleteOne(
+      { _id: new require('mongodb').ObjectId(id) }
+    );
+    res.json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  } 
 });
 
 module.exports = router;
