@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const getConnection = require("../common/DBConnection");
 
-router.get("/std/get-std", async (req, res) => {
+router.get("/get-std", async (req, res) => {
   try {
     const db = await getConnection();
     const students = await db.collection("Schooldata").find({}).toArray();
@@ -13,7 +13,7 @@ router.get("/std/get-std", async (req, res) => {
   }
 });
 
-router.post("/std/save-std", async (req, res) => {
+router.post("/save-std", async (req, res) => {
   try {
     const db = await getConnection();
     const data = req.body; // JSON data from frontend
@@ -25,7 +25,7 @@ router.post("/std/save-std", async (req, res) => {
   }
 });
 
-router.put("/std/update-std/:id", async (req, res) => {
+router.put("/update-std/:id", async (req, res) => {
   try {
     const db = await getConnection();   
     const id = req.params.id;
@@ -41,7 +41,7 @@ router.put("/std/update-std/:id", async (req, res) => {
   } 
 });
 
-router.delete("/std/delete-std/:id", async (req, res) => {
+router.delete("/delete-std/:id", async (req, res) => {
   try {
     const db = await getConnection(); 
 
