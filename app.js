@@ -3,9 +3,10 @@ const cors = require('cors');
 
 const app = express();
 
+// CORS (only once)
 app.use(cors({
   origin: "*",
-  methods: ["GET","POST","PUT","DELETE"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type"]
 }));
 
@@ -22,4 +23,4 @@ app.use('/users', usersRouter);
 const stdRoutes = require('./controllers/student');
 app.use('/std', stdRoutes);
 
-module.exports = app;   // IMPORTANT
+module.exports = app;
