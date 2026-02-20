@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const getConnection = require("./db"); // the module above
+const getConnection = require("../common/DBConnection");
 
 router.get("/std/get-std", async (req, res) => {
   try {
